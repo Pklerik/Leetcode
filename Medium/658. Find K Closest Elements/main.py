@@ -5,7 +5,6 @@ start = time.time()
 class Solution:
     def __init__(self) -> None:
         self.out = []
-        self.closest_arr = []
 
     def part_of_arr(self, arr: List[int], k: int, x: int) -> List[int]:
         middle = len(arr) // 2
@@ -15,66 +14,54 @@ class Solution:
             else:
                 arr = arr[middle - k:]
             arr = self.part_of_arr(arr, k, x)
-        self.closest_arr = arr
         return arr
 
-    def find_1st_closest_num(self) -> None:
-        x = self.x
-        self.ai = len(self.closest_arr)//2
-        a = self.closest_arr[self.ai]
-        for i,b in enumerate(self.closest_arr):
+    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+        closest_arr = self.part_of_arr(arr, k, x)
+        ai = len(closest_arr)//2
+        a = closest_arr[ai]
+        if len(closest_arr) == k:
+            return closest_arr
+        for i,b in enumerate(closest_arr):
             if a == b:
                 continue
             if not(abs(a-x) < abs(b-x) or (abs(a-x) == abs(b-x) and a < b)):
                 a = b
-                self.ai = i
+                ai = i
         else:
-            self.closest_arr.remove(a)
+            closest_arr.remove(a)
             self.out.append(a)
 
-    def fill_the_out(self) -> List[int]:
         counter = 1
-        k = self.k
-        x = self.x
         while counter < k:
-            if self.ai >= len(self.closest_arr) - 1:
-                self.ai = len(self.closest_arr) - 1
-                a = self.closest_arr[self.ai] 
-                b = self.closest_arr[self.ai - 1]
-            elif self.ai < 1:
-                self.ai = 1
-                a = self.closest_arr[self.ai] 
-                b = self.closest_arr[self.ai - 1]
+            if ai >= len(closest_arr) - 1:
+                ai = len(closest_arr) - 1
+                a = closest_arr[ai] 
+                b = closest_arr[ai - 1]
+            elif ai < 1:
+                ai = 1
+                a = closest_arr[ai] 
+                b = closest_arr[ai - 1]
             else:
-                a = self.closest_arr[self.ai] 
-                b = self.closest_arr[self.ai - 1]
+                a = closest_arr[ai] 
+                b = closest_arr[ai - 1]
             if a == b:
                 counter += 1
-                self.closest_arr.remove(a)
+                closest_arr.remove(a)
                 self.out.append(a)
                 continue
             elif not (abs(a-x) < abs(b-x) or (abs(a-x) == abs(b-x) and a < b)):
                 a = b
                 counter += 1
-                self.closest_arr.remove(a)
+                closest_arr.remove(a)
                 self.out.append(a)
-                self.ai -= 1
+                ai -= 1
                 continue
             else:
                 counter += 1
-                self.closest_arr.remove(a)
+                closest_arr.remove(a)
                 self.out.append(a)
                 continue
-
-
-    def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
-        self.k = k
-        self.x = x
-        self.closest_arr = self.part_of_arr(arr, k, x)
-        if len(self.closest_arr) == self.k:
-            return self.closest_arr
-        self.find_1st_closest_num()
-        self.fill_the_out()
         return sorted(self.out)
   
 s = Solution()
