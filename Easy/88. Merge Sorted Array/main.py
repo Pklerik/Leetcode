@@ -4,14 +4,16 @@ class Solution:
         """
         Do not return anything, modify nums1 in-place instead.
         """
-        
-        pointer = 0 
+
+        pointer = 0
         if n == 0:
             return
         for _ in range(m + n):
+        # while pointer < m + n - 1:
             if not nums2:
                 if nums1[pointer] == 0:
-                    nums1.pop(pointer)
+                    nums1.pop(-1)
+                    pointer += 1
                 continue
             if nums1[pointer] > nums2[0]:
                 nums1.insert(pointer, nums2.pop(0))
@@ -24,11 +26,6 @@ class Solution:
                     pointer += 1
                 else: pointer += 1
             else: pointer += 1
-
-        # for _ in range(n):
-        #     nums1.pop(-1)
-
-        # nums1 = nums1[:-n]
 
 nums1 = [-1,0,0,0,3,0,0,0,0,0,0]
 m = 5
